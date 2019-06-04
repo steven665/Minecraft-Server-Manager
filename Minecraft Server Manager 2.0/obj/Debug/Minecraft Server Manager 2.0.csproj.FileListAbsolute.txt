@@ -1,0 +1,43 @@
+C:\Users\gameb\source\repos\Minecraft Server Manager 2.0\Minecraft Server Manager 2.0\bin\Debug\Minecraft Server Manager 2.0.exe.config
+C:\Users\gameb\source\repos\Minecraft Server Manager 2.0\Minecraft Server Manager 2.0\bin\Debug\Minecraft Server Manager 2.0.exe
+C:\Users\gameb\source\repos\Minecraft Server Manager 2.0\Minecraft Server Manager 2.0\bin\Debug\Minecraft Server Manager 2.0.pdb
+C:\Users\gameb\source\repos\Minecraft Server Manager 2.0\Minecraft Server Manager 2.0\obj\Debug\Minecraft Server Manager 2.0.csprojResolveAssemblyReference.cache
+C:\Users\gameb\source\repos\Minecraft Server Manager 2.0\Minecraft Server Manager 2.0\obj\Debug\MainWindow.g.cs
+C:\Users\gameb\source\repos\Minecraft Server Manager 2.0\Minecraft Server Manager 2.0\obj\Debug\App.g.cs
+C:\Users\gameb\source\repos\Minecraft Server Manager 2.0\Minecraft Server Manager 2.0\obj\Debug\Minecraft Server Manager 2.0_MarkupCompile.cache
+C:\Users\gameb\source\repos\Minecraft Server Manager 2.0\Minecraft Server Manager 2.0\obj\Debug\Minecraft Server Manager 2.0_MarkupCompile.lref
+C:\Users\gameb\source\repos\Minecraft Server Manager 2.0\Minecraft Server Manager 2.0\obj\Debug\MainWindow.baml
+C:\Users\gameb\source\repos\Minecraft Server Manager 2.0\Minecraft Server Manager 2.0\obj\Debug\Minecraft Server Manager 2.0.g.resources
+C:\Users\gameb\source\repos\Minecraft Server Manager 2.0\Minecraft Server Manager 2.0\obj\Debug\Minecraft_Server_Manager_2._0.Properties.Resources.resources
+C:\Users\gameb\source\repos\Minecraft Server Manager 2.0\Minecraft Server Manager 2.0\obj\Debug\Minecraft Server Manager 2.0.csproj.GenerateResource.Cache
+C:\Users\gameb\source\repos\Minecraft Server Manager 2.0\Minecraft Server Manager 2.0\obj\Debug\Minecraft Server Manager 2.0.csproj.CoreCompileInputs.cache
+C:\Users\gameb\source\repos\Minecraft Server Manager 2.0\Minecraft Server Manager 2.0\obj\Debug\Minecraft Server Manager 2.0.exe
+C:\Users\gameb\source\repos\Minecraft Server Manager 2.0\Minecraft Server Manager 2.0\obj\Debug\Minecraft Server Manager 2.0.pdb
+C:\Users\gameb\source\repos\Minecraft Server Manager 2.0\Minecraft Server Manager 2.0\bin\Debug\Renci.SshNet.dll
+C:\Users\gameb\source\repos\Minecraft Server Manager 2.0\Minecraft Server Manager 2.0\bin\Debug\Xceed.Wpf.AvalonDock.dll
+C:\Users\gameb\source\repos\Minecraft Server Manager 2.0\Minecraft Server Manager 2.0\bin\Debug\Xceed.Wpf.AvalonDock.Themes.Aero.dll
+C:\Users\gameb\source\repos\Minecraft Server Manager 2.0\Minecraft Server Manager 2.0\bin\Debug\Xceed.Wpf.AvalonDock.Themes.Metro.dll
+C:\Users\gameb\source\repos\Minecraft Server Manager 2.0\Minecraft Server Manager 2.0\bin\Debug\Xceed.Wpf.AvalonDock.Themes.VS2010.dll
+C:\Users\gameb\source\repos\Minecraft Server Manager 2.0\Minecraft Server Manager 2.0\bin\Debug\Xceed.Wpf.Toolkit.dll
+C:\Users\gameb\source\repos\Minecraft Server Manager 2.0\Minecraft Server Manager 2.0\bin\Debug\Renci.SshNet.xml
+C:\Users\gameb\source\repos\Minecraft Server Manager 2.0\Minecraft Server Manager 2.0\bin\Debug\de\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\gameb\source\repos\Minecraft Server Manager 2.0\Minecraft Server Manager 2.0\bin\Debug\es\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\gameb\source\repos\Minecraft Server Manager 2.0\Minecraft Server Manager 2.0\bin\Debug\fr\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\gameb\source\repos\Minecraft Server Manager 2.0\Minecraft Server Manager 2.0\bin\Debug\hu\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\gameb\source\repos\Minecraft Server Manager 2.0\Minecraft Server Manager 2.0\bin\Debug\it\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\gameb\source\repos\Minecraft Server Manager 2.0\Minecraft Server Manager 2.0\bin\Debug\pt-BR\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\gameb\source\repos\Minecraft Server Manager 2.0\Minecraft Server Manager 2.0\bin\Debug\ro\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\gameb\source\repos\Minecraft Server Manager 2.0\Minecraft Server Manager 2.0\bin\Debug\ru\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\gameb\source\repos\Minecraft Server Manager 2.0\Minecraft Server Manager 2.0\bin\Debug\sv\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\gameb\source\repos\Minecraft Server Manager 2.0\Minecraft Server Manager 2.0\bin\Debug\zh-Hans\Xceed.Wpf.AvalonDock.resources.dll
+C:\Users\gameb\source\repos\Minecraft Server Manager 2.0\Minecraft Server Manager 2.0\bin\Debug\LiveCharts.dll
+C:\Users\gameb\source\repos\Minecraft Server Manager 2.0\Minecraft Server Manager 2.0\bin\Debug\LiveCharts.Wpf.dll
+C:\Users\gameb\source\repos\Minecraft Server Manager 2.0\Minecraft Server Manager 2.0\bin\Debug\MaterialDesignColors.dll
+C:\Users\gameb\source\repos\Minecraft Server Manager 2.0\Minecraft Server Manager 2.0\bin\Debug\MaterialDesignThemes.Wpf.dll
+C:\Users\gameb\source\repos\Minecraft Server Manager 2.0\Minecraft Server Manager 2.0\bin\Debug\LiveCharts.pdb
+C:\Users\gameb\source\repos\Minecraft Server Manager 2.0\Minecraft Server Manager 2.0\bin\Debug\LiveCharts.xml
+C:\Users\gameb\source\repos\Minecraft Server Manager 2.0\Minecraft Server Manager 2.0\bin\Debug\LiveCharts.Wpf.pdb
+C:\Users\gameb\source\repos\Minecraft Server Manager 2.0\Minecraft Server Manager 2.0\bin\Debug\LiveCharts.Wpf.xml
+C:\Users\gameb\source\repos\Minecraft Server Manager 2.0\Minecraft Server Manager 2.0\bin\Debug\MaterialDesignThemes.Wpf.pdb
+C:\Users\gameb\source\repos\Minecraft Server Manager 2.0\Minecraft Server Manager 2.0\bin\Debug\MaterialDesignThemes.Wpf.xml
+C:\Users\gameb\source\repos\Minecraft Server Manager 2.0\Minecraft Server Manager 2.0\obj\Debug\App.baml
