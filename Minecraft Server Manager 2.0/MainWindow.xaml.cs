@@ -37,13 +37,14 @@ namespace Minecraft_Server_Manager_2._0
         private Timer backupTimer = new Timer();
         private long timerRuntime = 0;
         string timeToDisplay = "";
-        Process p = new Process();
         int backupTimerInt = 3600;
         Timer TestRamTimer = new Timer();
         Random rand = new Random();
         bool ramTimerBool = false;
-        double[] ramGraphArray = new double[20] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        double[] ramGraphArray = new double[75];
         bool ServerRunning = false;
+        MinecraftServer TheServer;
+        
 
 
         public MainWindow()
@@ -72,7 +73,8 @@ namespace Minecraft_Server_Manager_2._0
             backupTimer.Interval = 1000;
             LastBackupLabel.Content = Properties.Settings.Default.LastBackup;
             TestRamTimer.Tick += new EventHandler(TestRamTimerTick);
-            TestRamTimer.Interval = 1000;
+            TestRamTimer.Interval = 250;
+            InitalizeRamGraphArray();
 
             #endregion
         }
@@ -84,6 +86,14 @@ namespace Minecraft_Server_Manager_2._0
         private ulong GetTotalMemoryInBytes()
         {
             return new Microsoft.VisualBasic.Devices.ComputerInfo().TotalPhysicalMemory;
+        }
+
+        private void InitalizeRamGraphArray()
+        {
+            for(int i = 0; i < ramGraphArray.Length; i++)
+            {
+                ramGraphArray[i] = 0;
+            }
         }
 
         #endregion
@@ -102,6 +112,7 @@ namespace Minecraft_Server_Manager_2._0
                 CommandTextBox.IsEnabled = true;
                 SendCommandButton.IsEnabled = true;
                 ServerRunning = true;
+                TestRamTimer.Start();
             }
             else
             {
@@ -111,9 +122,9 @@ namespace Minecraft_Server_Manager_2._0
 
         private void StopServerButton_Click(object sender, RoutedEventArgs e)
         {
-            p.StandardInput.WriteLine("stop");
-            p.CloseMainWindow();
+            TheServer.StopServer();
             timer.Stop();
+            TestRamTimer.Stop();
             UptimeStatusLabel.Content = "Server Offline";
             ServerUptimeLabel.Content = "";
             System.Windows.Forms.MessageBox.Show($"Server has been shutdown after {timeToDisplay}.", "Server shutdown", MessageBoxButtons.OK, MessageBoxIcon.Stop);
@@ -148,33 +159,19 @@ namespace Minecraft_Server_Manager_2._0
         {
             string serverFile = Properties.Settings.Default.ServerLocation;
             int ramAmount = Properties.Settings.Default.RamAllocation;
-            p.StartInfo.FileName = "cmd.exe";
-            p.StartInfo.UseShellExecute = false;
-            p.StartInfo.CreateNoWindow = true;
-            p.StartInfo.RedirectStandardInput = true;
-            p.StartInfo.RedirectStandardOutput = true;
-            p.Start();
-
-            
-
-            try
+            TheServer = new MinecraftServer(serverFile, ramAmount, Properties.Settings.Default.ServerFolder);
+            TheServer.StartServer();
+            while (TheServer.ServerStatus())
             {
-                p.StandardInput.WriteLine($"java -Xmx{ramAmount}M -Xms{ramAmount}M -jar \"{serverFile}\" nogui");
-                while(!p.HasExited)
+                List<string> sl = new List<string>();
+                sl = TheServer.GetOutput();
+                foreach (string s in sl.ToList())
                 {
-                    BGWorker.ReportProgress(0,(string)(p.StandardOutput.ReadLine()));
-                    if(BGWorker.CancellationPending)
-                    {
-                        p.Kill();
-                        p.Dispose();
-                    }
+                    BGWorker.ReportProgress(0, (string)(s));
                 }
+                
             }
-            catch (Exception)
-            {
 
-                throw;
-            }
         }
 
         private void BGWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -183,6 +180,7 @@ namespace Minecraft_Server_Manager_2._0
             ConsoleLogTextBox.AppendText(s);
             ConsoleLogTextBox.AppendText(Environment.NewLine);
             ConsoleLogTextBox.ScrollToEnd();
+            
         }
 
         private void BGWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -192,7 +190,10 @@ namespace Minecraft_Server_Manager_2._0
 
         private void SendCommandButton_Click(object sender, RoutedEventArgs e)
         {
-            p.StandardInput.WriteLine(CommandTextBox.Text);
+            TheServer.ServerP.StandardInput.WriteLine(CommandTextBox.Text);
+            ConsoleLogTextBox.AppendText($"SYSTEM COMMAND SENT : {CommandTextBox.Text}");
+            ConsoleLogTextBox.AppendText(Environment.NewLine);
+            ConsoleLogTextBox.ScrollToEnd();
             CommandTextBox.Clear();
         }
 
@@ -241,21 +242,12 @@ namespace Minecraft_Server_Manager_2._0
                 }
                 else
                     System.Windows.Forms.MessageBox.Show($"You did not select a valid server file. Please try again.");
-                
-
             }
             catch (Exception ex)
             {
                 
                 throw;
             }
-
-
-
-            
-            
-            
-            
         }
 
         private void SelectServerLocationButton_Click(object sender, RoutedEventArgs e)
@@ -297,17 +289,14 @@ namespace Minecraft_Server_Manager_2._0
         {
             TabItem tempTabItem = (TabItem)sender;
             MainWindow1.Title = "MC Server Manager 2 - " + tempTabItem.Header.ToString();
-            if(ServerRunning)
-            {
-                TestRamTimer.Start();
-            }
+
         }
 
         private void DashboardTab_LostFocus(object sender, RoutedEventArgs e)
         {
             if (ServerRunning)
             {
-                TestRamTimer.Stop();
+                
             }
         }
 
@@ -357,8 +346,8 @@ namespace Minecraft_Server_Manager_2._0
 
             if(backupTimerInt == 0)
             {
-                p.StandardInput.WriteLine("/say Server backup starting server may lag.");
-                p.StandardInput.WriteLine("/backup start");
+                TheServer.ServerP.StandardInput.WriteLine("/say Server backup starting server may lag.");
+                TheServer.ServerP.StandardInput.WriteLine("/backup start");
                 backupTimerInt = 3600;
                 DateTime localTime = DateTime.Now;
                 LastBackupLabel.Content = localTime;
@@ -382,13 +371,13 @@ namespace Minecraft_Server_Manager_2._0
                 StartGraphingButton.Content = "Stop Graph Test";
                 ramTimerBool = true;
                 ServerRunning = true;
+                
             }
             else
             {
                 TestRamTimer.Stop();
                 StartGraphingButton.Content = "Test Graph";
                 ramTimerBool = false;
-                RamGraph.Series.Clear();
                 ServerRunning = false;
             }
             
@@ -396,29 +385,46 @@ namespace Minecraft_Server_Manager_2._0
 
         private void TestRamTimerTick(object sender, EventArgs e)
         {
-            double[] holderArray = new double[20];
-            int temp = rand.Next(0,100);
-            int[] xax = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-            for(int i = 1; i<20;i++)
+            Process Proc = TheServer.ServerP;
+            long memsize = 0; // memsize in Kilabytes
+            PerformanceCounter PC = new PerformanceCounter();
+            PC.CategoryName = "Process";
+            PC.CounterName = "Working Set - Private";
+            PC.InstanceName = Proc.ProcessName;
+            memsize = (long)PC.NextValue();
+            PC.Close();
+            PC.Dispose();
+            
+            var graphLine = new Polyline
+            {
+                Stroke = System.Windows.Media.Brushes.LightSteelBlue,
+                HorizontalAlignment = System.Windows.HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Top,
+                UseLayoutRounding = true,
+                StrokeThickness = 2,
+                Fill = System.Windows.Media.Brushes.LightSteelBlue
+            };
+            int temp = (int)(memsize/1024)/1024;
+            for (int i = 2; i < ramGraphArray.Length; i++)
             {
                 ramGraphArray[i - 1] = ramGraphArray[i];
             }
-            ramGraphArray[19] = temp;
-            holderArray = ramGraphArray;
+            ramGraphArray[ramGraphArray.Length - 2] = temp;
 
-            SeriesCollection SeriesCollection = new SeriesCollection
+            PointCollection pcollection = new PointCollection();
+            for(int i = 0; i < ramGraphArray.Length; i++)
             {
-                new LineSeries
-                {
-                    Values = new ChartValues<double>(holderArray),
-                    PointGeometrySize = 1
-                }
-                
-            };
+                string s = $"point{i}";
+                pcollection.Add(new System.Windows.Point(((CanvasGraph.Width/ramGraphArray.Length)*i), CanvasGraph.Height-((ramGraphArray[i]/Properties.Settings.Default.RamAllocation)*CanvasGraph.Height)));
+            }
             
-            
+            RamTestLabel.Content = $"Ram Usage : {temp} MB";
+            graphLine.Points = pcollection;
+
+            CanvasGraph.Children.Clear();
+            CanvasGraph.Children.Add(graphLine);
         }
 
-        
+
     }
 }

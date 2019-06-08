@@ -1,334 +1,125 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 using System.Windows.Forms;
+using System.ComponentModel;
 using System.Diagnostics;
-using System.Threading;
 using System.IO;
 using System.Collections;
+using Renci.SshNet;
+using System.Threading;
 
-namespace Minecraft_Server_Manager
+
+namespace Minecraft_Server_Manager_2._0
 {
-    public partial class Form1 : Form
+    class MinecraftServer
     {
-        public Form1()
-        {
-            InitializeComponent();
-            BackgroundWorker BGWorker;
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            var props = Properties.Settings.Default;
-            CmdTextBox.Font = props.Font;
-            CmdFontDialog.Font = Properties.Settings.Default.Font;
-        }
-
-        #region Variables
+        public Process ServerP = null;
+        bool serverRunning = false;
+        int _ramAmount;
+        string _serverLocation;
+        string _serverFolder;
+        ProcessStartInfo PSI;
         
-        public delegate void UpdateTextBoxDel(string Text);
-        Process p = new Process();
-
-        //Uptime Timer Variables
-        int hours = 0;
-        int minutes = 0;
-        int seconds = 0;
         
-        //Backup Timer Variables
-        int backupHours = 1;
-        int backupMinutes = 0;
-        int backupSeconds = 0;
 
-        #endregion
-
-        #region Start Server
-        private void StartServerButton_Click(object sender, EventArgs e)
+        public MinecraftServer(string serverLocation, int ramAmount,string serverFolder)
         {
-            if (Properties.Settings.Default.ServerLocation == "Please select a server location")
+            if (File.Exists(serverLocation))
             {
-                MessageBox.Show("Please select a server location in server settings");
+                _serverLocation = serverLocation;
+                _serverFolder = serverFolder;
             }
-            else
+
+            _ramAmount = ramAmount;
+
+            PSI = new ProcessStartInfo("cmd.exe")
             {
-                ThreadStart StartCmdUpdate = new ThreadStart(StartCmd);
-                Thread UpdateString = new Thread(StartCmdUpdate);
-                UpdateString.Name = "CmdUpdatingThread";
-                UpdateString.IsBackground = true;
-                UpTimeTimer.Start();
+                CreateNoWindow = true,
+                UseShellExecute = false,
+                RedirectStandardInput = true,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                WorkingDirectory = _serverFolder,
                 
-                UpdateString.Start();
-            }
+
+            };
         }
 
-        private void UpTimeTimer_Tick(object sender, EventArgs e)
-        {
-
-            ServerUptimeLabel.Text = $"{hours} : {minutes} : {seconds}";
-            if(seconds == 59)
-            {
-                if(minutes == 59)
-                {
-                    hours++;
-                    minutes = 0;
-                    seconds = 0;
-                }
-                else
-                {
-                    minutes++;
-                    seconds = 0;
-                }
-            }
-            else
-            {
-                seconds++;
-            }
-        }
-
-        private void StartCmd()
-        {
-            p.StartInfo.FileName = "cmd.exe";
-            p.StartInfo.UseShellExecute = false;
-            p.StartInfo.CreateNoWindow = true;
-            p.StartInfo.RedirectStandardInput = true;
-            p.StartInfo.RedirectStandardOutput = true;
-            p.Start();
-
-            string ServerFile =Properties.Settings.Default.ServerLocation;
-            string RamAmount = Properties.Settings.Default.RamAllocation;
-
-                    //Starting Minecraft Server
-                    try
-                    {
-                        p.StandardInput.WriteLine($"java -Xmx{RamAmount}M -Xms{RamAmount}M -jar \"{ServerFile}\" nogui");
-                        UpdateTextBoxDel UpdateDel = new UpdateTextBoxDel(TextboxUpdate);
-                        while (!p.HasExited)
-                        {
-                            CmdTextBox.BeginInvoke(UpdateDel, p.StandardOutput.ReadLine());
-                        }
-
-                            Thread.CurrentThread.Join();
-                    }
-                    catch
-                    {
-                        MessageBox.Show("Could not start the server!", "Error!");
-                    }
-        }
-        #endregion
-
-        #region Stop Server Button
-        private void StopServerButton_Click(object sender, EventArgs e)
-        {
-            if (!p.HasExited)
-            {
-                try
-                {
-                    while (p.HasExited != true)
-                    {
-                        p.StandardInput.WriteLine("stop");
-                        p.CloseMainWindow();
-                        p.Kill();
-                        p.WaitForExit();
-                    }
-                    UpTimeTimer.Stop();
-                    PlayersOnlineTimer.Stop();
-                    ServerUptimeLabel.Text = "Offline";
-                    MessageBox.Show("Server has been shutdown", "Server");
-                    CmdTextBox.Clear();
-                }
-                catch
-                {
-                    MessageBox.Show("There was no server running", "Error!");
-                }
-            }
-            else
-            {
-                MessageBox.Show("There was no server running", "Error!");
-            }
-            CmdTextBox.Clear();
-        }
-
-        private void RestartServerButton_Click(object sender, EventArgs e)
-        {
-            if (!p.HasExited)
-            {
-                try
-                {
-                    while (p.HasExited != true)
-                    {
-                        p.StandardInput.WriteLine("stop");
-                        p.CloseMainWindow();
-                        p.Kill();
-                        p.WaitForExit();
-                    }
-                    UpTimeTimer.Stop();
-                    hours = 0;
-                    minutes = 0;
-                    seconds = 0;
-                    PlayersOnlineTimer.Stop();
-                    ServerUptimeLabel.Text = "Offline";
-                    
-                }
-                catch
-                {
-                    MessageBox.Show("There was no server running", "Error!");
-                }
-            }
-            TextboxUpdate("Restarting the Server");
-            StartServerButton.PerformClick();
-        }
-        #endregion
-
-        #region Backup Server
-
-        private void StartBackupButton_Click(object sender, EventArgs e)
-        {
-            BackupTimer.Start();
-            BackupTimerLabel.Text = "1 : 0 : 0";
-            TextboxUpdate($"Backups started at {DateTime.Now}");
-        }
-
-        private void BackupTimer_Tick(object sender, EventArgs e)
-        {
-            if (backupSeconds == 0)
-            {
-                if(backupMinutes == 0)
-                {
-                    backupHours--;
-                    backupMinutes = 59;
-                    backupSeconds = 59;
-                }
-                else
-                {
-                    backupMinutes--;
-                    backupSeconds =59;
-                }
-            }
-            else
-            {
-                backupSeconds--;
-            }
-            if(backupHours == 0 && backupMinutes == 0 && backupSeconds == 0)
-            {
-                backupHours = 1;
-                backupMinutes = 0;
-                backupSeconds = 0;
-                TheServerBackup();
-            }
-
-            BackupTimerLabel.Text = $"{backupHours} : {backupMinutes} : {backupSeconds}";
-        }
-
-        private void TheServerBackup()
-        {
-            LastServerBackupLabel.Text = $"Last Server Backup  -  {DateTime.Now}";
-            if (!Directory.Exists("BackupFolder"))
-            {
-                Directory.CreateDirectory("BackupFolder");
-            }
-            string orgdir = Directory.GetCurrentDirectory();
-            string destination = Directory.GetCurrentDirectory() + "\\BackupFolder";
-            ThreadStart fileCopyThread = new ThreadStart(() => Folderbackup(orgdir, destination));
-            Thread filecopyThreadStart = new Thread(fileCopyThread);
-            filecopyThreadStart.IsBackground = true;
-            filecopyThreadStart.Start();
-
-        }
-
-        private void Folderbackup(string originDir, string destDir)
-        {
-            if(!Directory.Exists(destDir))
-            {
-                Directory.CreateDirectory(destDir);
-            }
-            DirectoryInfo folder = new DirectoryInfo(originDir);
-            DirectoryInfo[] folders = folder.GetDirectories();
-            FileInfo[] files = folder.GetFiles();
-
-            foreach(FileInfo file in files)
-            {
-                string temppath = Path.Combine(destDir, file.Name);
-
-                file.CopyTo(temppath, true);
-            }
-
-            foreach(DirectoryInfo subdir in folders)
-            {
-                if (subdir.Name != "BackupFolder")
-                {
-                    string temppath = Path.Combine(destDir, subdir.Name);
-                    Folderbackup(subdir.FullName, temppath);
-                }
-            }
-            
-        }
-
-        private void StopBackupButton_Click(object sender, EventArgs e)
-        {
-            BackupTimer.Stop();
-            BackupTimerLabel.Text = "None";
-        }
-        #endregion
-
-        #region Server Functions
-
-        private void SendCommandButton_Click(object sender, EventArgs e)
+        public void StartServer()
         {
             try
             {
-                p.StandardInput.WriteLine(CmdInputTextbox.Text);
-                CmdInputTextbox.Clear();
+                if((ServerP = Process.Start(PSI)) != null)
+                {
+                    ServerP.StandardInput.WriteLine($"java -Xmx{_ramAmount}M -Xms{_ramAmount}M -jar \"{_serverLocation}\" nogui");
+                    serverRunning = true;
+                }
+                
+
             }
-            catch
+            catch (Exception ex)
             {
-                MessageBox.Show("There is no server started. Please start the server and try again", "Error!");
-                CmdInputTextbox.Clear();
+                System.Windows.Forms.MessageBox.Show(ex.Message);
+                throw;
             }
-            
+
         }
 
-        private void TextboxUpdate (string s)
+        public void StopServer()
         {
-            CmdTextBox.AppendText(s);
-            CmdTextBox.AppendText(Environment.NewLine);
+            try
+            {
+                serverRunning = false;
+                ServerP.Close();
+                ServerP.Dispose();
+                System.Windows.Forms.MessageBox.Show("Server has exited");
+
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
 
-        private void StartPlayerTimer()
+        public bool ServerStatus()
         {
-            ThreadStart playerupdates = new ThreadStart(StartPlayerTimer);
-            Thread PlayerTimer = new Thread(playerupdates);
-
+            return serverRunning;
         }
-
-        private void PlayersOnlineTimer_Tick(object sender, EventArgs e)
+        
+        public void SendCommand(string c)
         {
-            p.StandardInput.WriteLine("list");
-
+            ServerP.StandardInput.WriteLine(c);
         }
-
-        #endregion
-
-        #region General Functions
-
-        private void serverSettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        
+        public void GetMembers()
         {
-            Form2 Settings = new Form2();
-            Settings.Show();
+
         }
 
-        private void fontSizeToolStripMenuItem_Click(object sender, EventArgs e)
+        public void GetMembersOnline()
         {
-            CmdFontDialog.ShowDialog();
-            CmdTextBox.Font = CmdFontDialog.Font;
-            Properties.Settings.Default.Font = CmdFontDialog.Font;
-            Properties.Settings.Default.Save();
+
         }
 
-        #endregion
+        public void PreformServerAction(string action, string user)
+        {
 
+        }
+        
+
+        
     }
 }

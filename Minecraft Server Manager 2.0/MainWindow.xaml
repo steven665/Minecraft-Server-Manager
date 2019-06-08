@@ -6,6 +6,7 @@
         xmlns:sparrow="http://sparrowtoolkit.codeplex.com/wpf"
         xmlns:local="clr-namespace:Minecraft_Server_Manager_2._0"
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         x:Name="MainWindow1" x:Class="Minecraft_Server_Manager_2._0.MainWindow"
         mc:Ignorable="d"
         Title="MC Server Manager 2" Height="481.121" Width="705.678">
@@ -25,7 +26,8 @@
                         <Label x:Name="BackupTimerLabel" Content="Backups not running." HorizontalAlignment="Left" Margin="109,45,0,0" VerticalAlignment="Top"/>
                         <Label Content="Last backup :" HorizontalAlignment="Left" Margin="266,45,0,0" VerticalAlignment="Top"/>
                         <Label x:Name="LastBackupLabel" Content="" HorizontalAlignment="Left" Margin="361,45,0,0" VerticalAlignment="Top"/>
-                        <lvc:CartesianChart x:Name="RamGraph" Series="{Binding SeriesCollection}" Margin="10,257,340,10" AnimationsSpeed="0"/>
+                        <Label x:Name="RamTestLabel" Content="Ram Usage :" HorizontalAlignment="Left" Margin="10,76,0,0" VerticalAlignment="Top"/>
+                        <Grid x:Name="CanvasGraph" Margin="10,0,0,168" Background="#FF7E7A7A" Height="109" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="215"/>
 
                     </Grid>
                     <Button x:Name="StartBackupsButton" Content="Start Backups" HorizontalAlignment="Left" Margin="24,163,0,0" VerticalAlignment="Top" Width="105" Height="63" Click="StartBackupsButton_Click"/>
