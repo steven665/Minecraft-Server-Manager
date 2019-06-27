@@ -1,0 +1,15 @@
+C:\Users\gameb\source\repos\Minecraft Server manager 2\Minecraft Server manager 2\obj\Debug\Minecraft Server manager 2.csprojResolveAssemblyReference.cache
+C:\Users\gameb\source\repos\Minecraft Server manager 2\Minecraft Server manager 2\obj\Debug\MainWindow.g.cs
+C:\Users\gameb\source\repos\Minecraft Server manager 2\Minecraft Server manager 2\obj\Debug\App.g.cs
+C:\Users\gameb\source\repos\Minecraft Server manager 2\Minecraft Server manager 2\obj\Debug\Minecraft Server manager 2_MarkupCompile.cache
+C:\Users\gameb\source\repos\Minecraft Server manager 2\Minecraft Server manager 2\obj\Debug\Minecraft Server manager 2_MarkupCompile.lref
+C:\Users\gameb\source\repos\Minecraft Server manager 2\Minecraft Server manager 2\bin\Debug\Minecraft Server manager 2.exe.config
+C:\Users\gameb\source\repos\Minecraft Server manager 2\Minecraft Server manager 2\bin\Debug\Minecraft Server manager 2.exe
+C:\Users\gameb\source\repos\Minecraft Server manager 2\Minecraft Server manager 2\bin\Debug\Minecraft Server manager 2.pdb
+C:\Users\gameb\source\repos\Minecraft Server manager 2\Minecraft Server manager 2\obj\Debug\MainWindow.baml
+C:\Users\gameb\source\repos\Minecraft Server manager 2\Minecraft Server manager 2\obj\Debug\Minecraft Server manager 2.g.resources
+C:\Users\gameb\source\repos\Minecraft Server manager 2\Minecraft Server manager 2\obj\Debug\Minecraft_Server_manager_2.Properties.Resources.resources
+C:\Users\gameb\source\repos\Minecraft Server manager 2\Minecraft Server manager 2\obj\Debug\Minecraft Server manager 2.csproj.GenerateResource.Cache
+C:\Users\gameb\source\repos\Minecraft Server manager 2\Minecraft Server manager 2\obj\Debug\Minecraft Server manager 2.csproj.CoreCompileInputs.cache
+C:\Users\gameb\source\repos\Minecraft Server manager 2\Minecraft Server manager 2\obj\Debug\Minecraft Server manager 2.exe
+C:\Users\gameb\source\repos\Minecraft Server manager 2\Minecraft Server manager 2\obj\Debug\Minecraft Server manager 2.pdb

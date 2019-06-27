@@ -1,0 +1,21 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Minecraft_Server_manager_2.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="ServerLocation" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Please select a server</Value>
+    </Setting>
+    <Setting Name="RamAllocation" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">512</Value>
+    </Setting>
+    <Setting Name="ServerFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="LastBackup" Type="System.DateTime" Scope="User">
+      <Value Profile="(Default)">06/01/2019 17:01:00</Value>
+    </Setting>
+    <Setting Name="PlayerDataLocation" Type="System.String" Scope="User">
+      <Value Profile="(Default)">\world\data\ftb_lib\players</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
